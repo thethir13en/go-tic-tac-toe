@@ -137,6 +137,7 @@ func main() {
 	playerOne, playerTwo, err := setSign()
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(1)
 	}
 	// print game field for the first time
 	printField(game)
