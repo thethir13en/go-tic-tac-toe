@@ -52,9 +52,9 @@ func setSign() (p1 string, p2 string, err error) {
 	// check input - if it's incorrect throw error
 	switch {
 	case p1 == "X" || p1 == "x":
-		p2 = "O"
+		p1, p2 = "X", "O"
 	case p1 == "O" || p1 == "o":
-		p2 = "X"
+		p1, p2 = "O", "X"
 	default:
 		err = errors.New("incorrect input - please use only english letters o or x")
 	}
