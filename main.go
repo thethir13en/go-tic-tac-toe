@@ -58,8 +58,6 @@ func setSign() (p1 string, p2 string, err error) {
 	default:
 		err = errors.New("incorrect input - please use only english letters o or x")
 	}
-	// print signs of players
-	fmt.Printf("Player One chosed %v, Player Two will use %v\n", p1, p2)
 
 	return p1, p2, err
 }
@@ -138,6 +136,9 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
+	} else {
+		// print signs of players
+		fmt.Printf("Player One chosed %v, Player Two will use %v\n", playerOne, playerTwo)
 	}
 	// print game field for the first time
 	printField(game)
