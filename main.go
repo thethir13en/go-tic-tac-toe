@@ -20,7 +20,7 @@ func newGame() [][]string {
 		// if i is odd (eg. 1,3,5,7...etc) fill slice with separators - horizontal line
 		if i%2 != 0 {
 			for j := 0; j < len(field[i]); j++ {
-				field[i][j] = "-"
+				field[i][j] = "—"
 			}
 		} else {
 			// if j is odd (eg. 1,3,5,7...etc) fill element of slice with separators - vertical lines
