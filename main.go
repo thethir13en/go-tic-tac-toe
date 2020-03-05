@@ -103,11 +103,11 @@ func gameFinished(field [][]string, p1 string, p2 string) (result bool) {
 
 			if vertical == strings.Repeat(p1, 3) || horizontal == strings.Repeat(p1, 3) || diagonal1 == strings.Repeat(p1, 3) || diagonal2 == strings.Repeat(p1, 3) {
 				result = true
-				fmt.Printf("Player One win!\n")
+				fmt.Printf("Player One won!\n")
 				break
 			} else if vertical == strings.Repeat(p2, 3) || horizontal == strings.Repeat(p2, 3) || diagonal1 == strings.Repeat(p2, 3) || diagonal2 == strings.Repeat(p2, 3) {
 				result = true
-				fmt.Printf("Player Two win!\n")
+				fmt.Printf("Player Two won!\n")
 				break
 			} else {
 				continue
@@ -179,7 +179,6 @@ func main() {
 		isFinished = gameFinished(game, playerOne, playerTwo)
 		// print game field
 		printField(game)
-
 	}
 	// bye message!
 	fmt.Printf("Game finished in %v turns!\nBye-Bye!\n\nWindow will close automatically in 5 seconds!", turnCount)
