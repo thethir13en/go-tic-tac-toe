@@ -122,7 +122,7 @@ func gameFinished(field [][]string, p1 string, p2 string) (result bool) {
 
 func main() {
 	// counter for turns
-	var turnCount int = 1
+	var turnCount int = 0
 	// number of cell, which will be checked
 	var turnNumber string
 	// holder for loop, while game isn't finished
@@ -144,6 +144,8 @@ func main() {
 	printField(game)
 	// main game loop
 	for isFinished == false {
+		// increase turn count
+		turnCount++
 		// print turn number and signs of palyers
 		fmt.Printf("___________\nTurn №%v, (P1 = %v | P2 = %v)\n", turnCount, playerOne, playerTwo)
 		// logic when player one choosed X
@@ -153,13 +155,11 @@ func main() {
 				fmt.Printf("Player One make your turn\n")
 				fmt.Fscan(os.Stdin, &turnNumber)
 				makeTurn(game, playerOne, turnNumber)
-				turnCount++
 			} else {
 				// player one always starts first and if turnCount is odd - it is player's one turn
 				fmt.Printf("Player Two make your turn\n")
 				fmt.Fscan(os.Stdin, &turnNumber)
 				makeTurn(game, playerTwo, turnNumber)
-				turnCount++
 			}
 			// logic when player one choosed O
 		} else {
@@ -168,13 +168,11 @@ func main() {
 				fmt.Printf("Player Two make your turn\n")
 				fmt.Fscan(os.Stdin, &turnNumber)
 				makeTurn(game, playerTwo, turnNumber)
-				turnCount++
 			} else {
 				// player one always starts first and if turnCount is odd - it is player's one turn
 				fmt.Printf("Player One make your turn\n")
 				fmt.Fscan(os.Stdin, &turnNumber)
 				makeTurn(game, playerOne, turnNumber)
-				turnCount++
 			}
 		}
 		// check if game is already finished
