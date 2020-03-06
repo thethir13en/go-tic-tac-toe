@@ -77,47 +77,56 @@ func makeTurn(field [][]string, playerSign string, position string) {
 	}
 }
 
-func gameFinished(field [][]string, p1 string, p2 string) (result bool) {
-	// checking loop
-	for i := 0; i < len(field); i++ {
-		// check only even elements of slice
-		// set horizontal and vertical to none
-		horizontal, vertical, diagonal1, diagonal2 := "", "", "", ""
-		n := 0
-		if i%2 == 0 {
-			// check directions
-			for j := 0; j < len(field); j++ {
-				if j%2 == 0 {
-					vertical = vertical + field[j][i]
-					horizontal = horizontal + field[i][j]
-					diagonal1 = diagonal1 + field[j][j]
-				}
-			}
-			// check diagonal from left bottom to upper right
-			for j := len(field) - 1; j >= 0; j-- {
-				if j%2 == 0 {
-					diagonal2 = diagonal2 + field[n][j]
-					n += 2
-				}
-			}
+func checkGameState(field [][]string, p1 string, p2 string) (win, draw bool) {
+	// vars
+	var diagonal1, diagonal2 string
+	// counter for diagonal2
+	var n int
+	// check horizontal,vertical lines and concatenate diagonal1
+	for i := 0; i < len(field); i += 2 {
+		var horizontal, vertical string
+		// make diagonal1 string
+		diagonal1 = diagonal1 + field[i][i]
+		// iterate over every second element of slice
+		for j := 0; j < len(field[i]); j += 2 {
+			horizontal = horizontal + field[i][j]
+			vertical = vertical + field[j][i]
+		}
 
-			if vertical == strings.Repeat(p1, 3) || horizontal == strings.Repeat(p1, 3) || diagonal1 == strings.Repeat(p1, 3) || diagonal2 == strings.Repeat(p1, 3) {
-				result = true
-				fmt.Printf("Player One won!\n")
-				break
-			} else if vertical == strings.Repeat(p2, 3) || horizontal == strings.Repeat(p2, 3) || diagonal1 == strings.Repeat(p2, 3) || diagonal2 == strings.Repeat(p2, 3) {
-				result = true
-				fmt.Printf("Player Two won!\n")
-				break
-			} else {
-				continue
-			}
-
+		if horizontal == strings.Repeat(p1, 3) || vertical == strings.Repeat(p1, 3) {
+			goto playerOneWon
+		} else if horizontal == strings.Repeat(p2, 3) || vertical == strings.Repeat(p2, 3) {
+			goto playerTwoWon
+		} else {
+			continue
 		}
 	}
+	// concatenate diagonal2 from left bottom to upper right
+	for i := len(field) - 1; i >= 0; i -= 2 {
+		diagonal2 = diagonal2 + field[i][n]
+		n += 2
+	}
 
-	return result
+	// check diagonals
+	if diagonal1 == strings.Repeat(p1, 3) || diagonal2 == strings.Repeat(p1, 3) {
+		goto playerOneWon
+	} else if diagonal1 == strings.Repeat(p2, 3) || diagonal2 == strings.Repeat(p2, 3) {
+		goto playerTwoWon
+	}
 
+	return win, draw
+	// goto escapes
+playerOneWon:
+	win = true
+	fmt.Printf("Player One won!\n")
+	return win, draw
+playerTwoWon:
+	win = true
+	fmt.Printf("Player Two won!\n")
+	return win, draw
+	// gameDraw:
+	// 	fmt.Printf("Game draw!\n")
+	// 	return win, draw
 }
 
 func main() {
@@ -126,7 +135,7 @@ func main() {
 	// number of cell, which will be checked
 	var turnNumber string
 	// holder for loop, while game isn't finished
-	var isFinished bool = false
+	var isFinished, draw bool
 	// Welcome message!
 	fmt.Printf("Welcome to tic-tac-toe game!\n")
 	// init new game field
@@ -176,7 +185,8 @@ func main() {
 			}
 		}
 		// check if game is already finished
-		isFinished = gameFinished(game, playerOne, playerTwo)
+		isFinished, draw = checkGameState(game, playerOne, playerTwo)
+		fmt.Println(draw)
 		// print game field
 		printField(game)
 	}
