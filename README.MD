@@ -17,3 +17,8 @@
 
 ## Gameplay
 ...in progress...
+
+## Todo
+
+- draw state
+- singleplayer
