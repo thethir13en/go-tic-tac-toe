@@ -20,5 +20,4 @@
 
 ## Todo
 
-- draw state
 - singleplayer

@@ -8,11 +8,11 @@ import (
 	"time"
 )
 
-func newGame() [][]string {
+func newGame() (field [][]string, n int) {
 	// create main slice of slices
-	field := make([][]string, 5)
+	field = make([][]string, 5)
 	// variable for set numbers on game field
-	n := 1
+	n = 1
 	// iterate over every element in slice
 	for i := 0; i < len(field); i++ {
 		// create underlying slice
@@ -35,7 +35,7 @@ func newGame() [][]string {
 		}
 	}
 
-	return field
+	return field, n
 }
 
 func printField(field [][]string) {
@@ -77,7 +77,7 @@ func makeTurn(field [][]string, playerSign string, position string) {
 	}
 }
 
-func checkGameState(field [][]string, p1 string, p2 string) (win, draw bool) {
+func checkGameState(field [][]string, p1 string, p2 string, maxTurn int, turn int) (finished bool) {
 	// vars
 	var diagonal1, diagonal2 string
 	// counter for diagonal2
@@ -114,19 +114,27 @@ func checkGameState(field [][]string, p1 string, p2 string) (win, draw bool) {
 		goto playerTwoWon
 	}
 
-	return win, draw
+	// check draw (easy way)
+	// if turn is larger than max number count and game isn't finished - draw!
+	if turn >= maxTurn {
+		goto gameDraw
+	}
+
+	fmt.Println(maxTurn, turn)
+	return finished
 	// goto escapes
 playerOneWon:
-	win = true
+	finished = true
 	fmt.Printf("Player One won!\n")
-	return win, draw
+	return finished
 playerTwoWon:
-	win = true
+	finished = true
 	fmt.Printf("Player Two won!\n")
-	return win, draw
-	// gameDraw:
-	// 	fmt.Printf("Game draw!\n")
-	// 	return win, draw
+	return finished
+gameDraw:
+	finished = true
+	fmt.Printf("Game draw!\n")
+	return finished
 }
 
 func main() {
@@ -135,11 +143,11 @@ func main() {
 	// number of cell, which will be checked
 	var turnNumber string
 	// holder for loop, while game isn't finished
-	var isFinished, draw bool
+	var isFinished bool
 	// Welcome message!
 	fmt.Printf("Welcome to tic-tac-toe game!\n")
 	// init new game field
-	game := newGame()
+	game, maxTurn := newGame()
 	// set sign for players
 	playerOne, playerTwo, err := setSign()
 	if err != nil {
@@ -185,8 +193,7 @@ func main() {
 			}
 		}
 		// check if game is already finished
-		isFinished, draw = checkGameState(game, playerOne, playerTwo)
-		fmt.Println(draw)
+		isFinished = checkGameState(game, playerOne, playerTwo, maxTurn-1, turnCount)
 		// print game field
 		printField(game)
 	}
