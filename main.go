@@ -152,6 +152,8 @@ func main() {
 	playerOne, playerTwo, err := setSign()
 	if err != nil {
 		fmt.Println(err)
+		fmt.Println("Please, restart game!")
+		time.Sleep(2 * time.Second)
 		os.Exit(1)
 	} else {
 		// print signs of players
