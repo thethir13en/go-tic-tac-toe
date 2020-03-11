@@ -1,5 +1,7 @@
 # Implementation of Tic-Tac-Toe game written on Golang, console-variant
 
+![banner](./banner.png "Main view")
+
 ## Install
 
 - just run:
