@@ -77,7 +77,7 @@ func makeTurn(field [][]string, playerSign string, position string) {
 	}
 }
 
-func checkGameState(field [][]string, p1 string, p2 string, maxTurn int, turn int) (finished bool) {
+func checkGameState(field [][]string, p1 string, p2 string, maxTurn int, turn int) bool {
 	// vars
 	var diagonal1, diagonal2 string
 	// counter for diagonal2
@@ -94,11 +94,11 @@ func checkGameState(field [][]string, p1 string, p2 string, maxTurn int, turn in
 		}
 
 		if horizontal == strings.Repeat(p1, 3) || vertical == strings.Repeat(p1, 3) {
-			goto playerOneWon
+			fmt.Printf("Player One won!\n")
+			return true
 		} else if horizontal == strings.Repeat(p2, 3) || vertical == strings.Repeat(p2, 3) {
-			goto playerTwoWon
-		} else {
-			continue
+			fmt.Printf("Player Two won!\n")
+			return true
 		}
 	}
 	// concatenate diagonal2 from left bottom to upper right
@@ -109,32 +109,22 @@ func checkGameState(field [][]string, p1 string, p2 string, maxTurn int, turn in
 
 	// check diagonals
 	if diagonal1 == strings.Repeat(p1, 3) || diagonal2 == strings.Repeat(p1, 3) {
-		goto playerOneWon
+		fmt.Printf("Player One won!\n")
+		return true
 	} else if diagonal1 == strings.Repeat(p2, 3) || diagonal2 == strings.Repeat(p2, 3) {
-		goto playerTwoWon
+		fmt.Printf("Player Two won!\n")
+		return true
 	}
 
 	// check draw (easy way)
 	// if turn is larger than max number count and game isn't finished - draw!
 	if turn >= maxTurn {
-		goto gameDraw
+		fmt.Printf("Game draw!\n")
+		return true
 	}
 
 	fmt.Println(maxTurn, turn)
-	return finished
-	// goto escapes
-playerOneWon:
-	finished = true
-	fmt.Printf("Player One won!\n")
-	return finished
-playerTwoWon:
-	finished = true
-	fmt.Printf("Player Two won!\n")
-	return finished
-gameDraw:
-	finished = true
-	fmt.Printf("Game draw!\n")
-	return finished
+	return false
 }
 
 func main() {
